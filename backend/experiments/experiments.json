@@ -1,0 +1,84 @@
+[
+    { 
+      "id": 1, 
+      "title": "SimpleVNCConnection", 
+      "description": "This is a simple experiment, showing a first connection to Guacamole",
+      "numelements": 1, 
+      "elements": [
+        { 
+          "resource": "screen",
+          "token": "",
+          "tokenObject": {
+            "connection": {
+              "type": "vnc",
+              "settings": {
+                "hostname": "10.2.2.109",
+                "password": "misure",
+                "enable-drive": true,
+                "create-drive-path": true,
+                "security": "any",
+                "ignore-cert": true,
+                "enable-wallpaper": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Agilent E3348C",
+      "description": "This is a simple experiment, showing the web proxy",
+      "numelements": 1,
+      "elements": [
+        {
+          "description": "Agilent E3348C signal generator",
+          "resource": "web",
+          "url": "http://192.168.0.114",
+          "path": "/display",
+          "width": 984,
+          "height": 405
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tektronix MSO6B",
+      "description": "This is a simple experiment, showing the web proxy",
+      "numelements": 1,
+      "elements": [
+        {
+          "description": "Tektronix MSO6B oscilloscope",
+          "resource": "web",
+          "url": "http://192.168.0.183",
+          "path": "/Tektronix",
+          "width": 1100,
+          "height": 600
+        }
+      ]
+    },
+    { 
+      "id": 4, 
+      "title": "Radio signals", 
+      "description": "Demo of radio signal generation and acquisition",
+      "numelements": 1, 
+      "elements": [
+        {
+          "description": "Agilent E3348C signal generator",
+          "resource": "web",
+          "url": "http://192.168.0.114",
+          "path": "/display",
+          "width": 984,
+          "height": 405
+        },
+        {
+          "description": "Tektronix MSO6B oscilloscope",
+          "resource": "web",
+          "url": "http://192.168.0.183",
+          "path": "/Tektronix",
+          "width": 1100,
+          "height": 600
+        }
+      ]
+    }
+]
