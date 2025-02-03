@@ -61,7 +61,7 @@ onMounted(() => {
 
         if (el.type=="screen" && !client) {
             console.log("... starting Guacamole client...");
-            tunnel = new Guacamole.WebSocketTunnel('ws://localhost:8080/');
+            tunnel = new Guacamole.WebSocketTunnel('ws://' + import.meta.env.VITE_HOST_ADDRESS +':8080/');
             client = new Guacamole.Client(tunnel);
 
             
@@ -124,14 +124,12 @@ onMounted(() => {
                 console.log("Element width="+el.width+", no scale");
 
                 displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></object>';
-                //displayElm.innerHTML='<iframe src="http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + '" style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></iframe>';
             } else {
                 // evaluate scale
                 const scale = displayElm.clientWidth/el.width;
                 console.log("Element width="+el.width+", scaling by "+scale);
 
                 displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+el.width+'px; height: '+el.height+'px; transform-origin: left top; transform: scale('+scale+')"></object>';
-                //displayElm.innerHTML='<iframe src="http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + '" style="width:'+el.width+'px; height: '+el.height+'px;"></iframe>';
             }
             
             waitForElement("object", 3000).then(function (val) {

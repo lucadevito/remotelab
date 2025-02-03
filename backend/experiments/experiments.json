@@ -12,7 +12,7 @@
             "connection": {
               "type": "vnc",
               "settings": {
-                "hostname": "10.2.2.109",
+                "hostname": "192.168.0.112",
                 "password": "misure",
                 "enable-drive": true,
                 "create-drive-path": true,
