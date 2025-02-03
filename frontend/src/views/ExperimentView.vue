@@ -25,7 +25,7 @@ const scale = 1;
 function waitForElement(querySelector, timeout){
   return new Promise((resolve, reject)=>{
     var timer = false;
-    const elem = document.querySelector(querySelector);
+    var elem = document.querySelector(querySelector);
     if(elem) return resolve(elem.offsetWidth);
     const observer = new MutationObserver(()=>{
       elem = document.querySelector(querySelector)
@@ -123,14 +123,14 @@ onMounted(() => {
             if (displayElm.clientWidth > el.width) {
                 console.log("Element width="+el.width+", no scale");
 
-                displayElm.innerHTML='<object type="text/html" data=http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></object>';
+                displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></object>';
                 //displayElm.innerHTML='<iframe src="http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + '" style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></iframe>';
             } else {
                 // evaluate scale
                 const scale = displayElm.clientWidth/el.width;
                 console.log("Element width="+el.width+", scaling by "+scale);
 
-                displayElm.innerHTML='<object type="text/html" data=http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+el.width+'px; height: '+el.height+'px; transform-origin: left top; transform: scale('+scale+')"></object>';
+                displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+el.width+'px; height: '+el.height+'px; transform-origin: left top; transform: scale('+scale+')"></object>';
                 //displayElm.innerHTML='<iframe src="http://localhost:' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + '" style="width:'+el.width+'px; height: '+el.height+'px;"></iframe>';
             }
             

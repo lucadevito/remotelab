@@ -23,11 +23,11 @@ async function authenticate({ username, password }) {
     };
 }
 
-/*
+
 async function getAll() {
     return users.map(u => omitPassword(u));
 }
-*/
+
 
 // helper functions
 
