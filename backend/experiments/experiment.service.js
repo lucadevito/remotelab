@@ -134,7 +134,9 @@ async function startExperiment(experimentId) {
       const token = encryptToken(exp.elements[i].tokenObject);
       console.log(token);
       //listTokens = [...listTokens, token]
-      valueList[i] = token;
+      valueList[i] = {
+        token: token
+      };
     } else if (exp.elements[i].resource == "web") {
 
       const serverPort = nextAvailableProxyPort();

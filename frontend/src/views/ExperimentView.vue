@@ -77,8 +77,8 @@ onMounted(() => {
 
             guacDisplay = client.getDisplay();
             guacDisplay.scale(scale);
-            console.log('token='+el.value)
-            client.connect('token='+el.value);
+            console.log('token='+el.value["token"])
+            client.connect('token='+el.value["token"]);
             guacMouse = new Guacamole.Mouse(displayElm);
             guacMouse.onmouseout = () => {
                 if (!guacDisplay) return;
