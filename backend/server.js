@@ -26,12 +26,13 @@ serverApp.use(errorHandler);
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
-const server = serverApp.listen(port, function () {
+const nodeAppServer = serverApp.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
 
-const guacamoleServer = http.createServer(guacamoleApp);
+const server = http.createServer(guacamoleApp);
 const guacdOptions = {
+    host: '127.0.0.1',
     port: 4822 // port of guacd
 };
 
@@ -43,11 +44,11 @@ const clientOptions = {
 };
 
 const guacServer = new GuacamoleLite(
-    {guacamoleServer},
+    {server},
     guacdOptions,
     clientOptions
 );
-guacamoleServer.listen(8000, function () {
+server.listen(8080, '0.0.0.0', function () {
     console.log('Guacamole server listening on port 8080');
 });
 
