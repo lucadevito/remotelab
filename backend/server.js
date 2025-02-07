@@ -53,14 +53,14 @@ server.listen(8080, '0.0.0.0', function () {
 });
 
 process.on('SIGTERM', () => {
-    guacamoleServer.close();
-    guacServer.close();
-    server.closeAllConnections();
     server.close();
+    guacServer.close();
+    nodeAppServer.closeAllConnections();
+    nodeAppServer.close();
 });
 process.on('SIGINT', () => {
-    guacamoleServer.close();
-    guacServer.close();
-    server.closeAllConnections();
     server.close();
+    guacServer.close();
+    nodeAppServer.closeAllConnections();
+    nodeAppServer.close();
 });

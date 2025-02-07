@@ -113,35 +113,56 @@ onMounted(() => {
             setTimeout(() => {
                 displayElm.focus()
             }, 1000); // $nextTick wasn't enough
-
-            waitForElement("canvas", 3000,).then(function (val) {
-                console.log('Canvas loaded, width = '+ val, 'height='+displayElm.offsetHeight);
+/*
+            waitForElement("canvas", 10000).then(function (val) {
+                
+                console.log(displayElm.children[0]);
+                handleWindowSizeChange();
                 el.loading = false;
             });
+            */
         } else if (el.type=="web") {
 
-            if (displayElm.clientWidth > el.width) {
+            //if (displayElm.clientWidth > el.width) {
                 console.log("Element width="+el.width+", no scale");
 
                 displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+displayElm.clientWidth+'px; height: '+el.height+'px;"></object>';
-            } else {
+            /*} else {
                 // evaluate scale
                 const scale = displayElm.clientWidth/el.width;
                 console.log("Element width="+el.width+", scaling by "+scale);
 
                 displayElm.innerHTML='<object type="text/html" data=http://' + import.meta.env.VITE_HOST_ADDRESS + ':' + el.value["serverPort"] + el.path + '?proxytoken='+el.value["proxyToken"] + ' style="width:'+el.width+'px; height: '+el.height+'px; transform-origin: left top; transform: scale('+scale+')"></object>';
             }
-            
+                */
+            /*
             waitForElement("object", 3000).then(function (val) {
-                console.log('object loaded, width = '+ val, 'height='+displayElm.offsetHeight);
+                handleWindowSizeChange();
                 el.loading = false;
             });
-            
+            */
         }
+        var intervalId = setInterval(function(){
+            if (!displayElm) return;
+            if (!displayElm.children[0])
+                return;
+            else
+                el.loading = false;
+            if(displayElm.children[0].style.width!="0px") {
+                //do stuff
+                clearInterval(intervalId);
+                console.log("Content loaded");
+                console.log(displayElm.children[0].style.width);
+                handleWindowSizeChange();
+            }
+        }, 500);
     });
+
+    window.addEventListener("resize", debounce(handleWindowSizeChange));
 })
 
 onUnmounted(async () => {
+    window.removeEventListener("resize", debounce(handleWindowSizeChange));
     console.log('OnUnmounted');
     if (client) {
         console.log('Closing Guacamole client');
@@ -151,6 +172,53 @@ onUnmounted(async () => {
     console.log("Stopping experiment "+experimentsStore.activeExperiment.id);
     await experimentsStore.stopExperiment(experimentsStore.activeExperiment.id);
 })
+
+function debounce(func){
+  var timer;
+  return function(event){
+    if(timer) clearTimeout(timer);
+    timer = setTimeout(func,100,event);
+  };
+}
+
+const handleWindowSizeChange = () => {
+    console.log("handleWindowSizeChange");
+    experimentsStore.activeExperiment.resources.forEach((el, idx) => {
+        console.log("...resource index="+idx);
+        console.log("...resource type: "+el.type);
+
+        displayElm = display.value[idx];
+        if (!displayElm) return;
+        console.log("Display elm width is "+displayElm.clientWidth);
+
+        var contentElm = displayElm.children[0];
+        if (!contentElm) return;
+
+        var contentWidth;
+
+        if (el.type=="screen")
+            contentWidth = contentElm.clientWidth;
+        else if (el.type == "web")
+            contentWidth = el.width;
+        
+        console.log("Content width is " + contentWidth);
+
+        if (displayElm.clientWidth < contentWidth) {
+            console.log("Need to reduce size");
+            
+            contentElm.style.width = contentWidth + "px";
+            console.log(contentElm);
+            console.log(contentWidth);
+            // evaluate scale
+            const scale = displayElm.clientWidth/contentWidth;
+            contentElm.style.transformOrigin= "left top";
+            contentElm.style.transform = 'scale('+ scale +')';
+            
+        } else 
+            // remove scale
+            contentElm.style.transform = 'scale(1)';
+    });
+}
 
 </script>
 
