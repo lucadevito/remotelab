@@ -5,7 +5,21 @@ Three options of interface are planned:
 
 - VNC or RDP (useful for workstations and Windows-based instrumentation);
 - web (many recent instruments provide a remote panel accessible through web, e.g. Tektronix eScope)
-- VXI-11 (to be included)
+- VISA (to be implemented)
+
+The architecture of the laboratory server is shown in the figure below.
+A frontend, implemented in Vue, is in charge of interacting with the users. 
+The frontend sends then API requests to the backend server which is in charge of:
+- managing user authentication;
+- providing the list of experiments, and the list of resources (instruments, workstations, etc.) used by the experiment;
+- starting and stopping an experiment.
+
+If a resource requires a remote desktop connection, the server application sends a token to the frontend, to be used in a websocket connection with the Guacamole server.
+
+If a resource requires a web connection, the server application starts a web proxy pointing to the resource and sends a token to the frontend to be used with the web proxy.
+
+![Alt text](Remotelab.png "Architecture of the laboratory server")
+
 
 
 ## Installation
